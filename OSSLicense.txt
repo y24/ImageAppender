@@ -1,0 +1,15 @@
+jQuery v3.6.0 | (c) OpenJS Foundation and other contributors | jquery.org/license
+---
+Bootstrap v4.6.0 (https://getbootstrap.com/)
+Copyright 2011-2021 The Bootstrap Authors
+Copyright 2011-2021 Twitter, Inc.
+Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+---
+html2canvas 1.0.0-rc.7 <https://html2canvas.hertzen.com>
+Copyright (c) 2020 Niklas von Hertzen <https://hertzen.com>
+Released under MIT License
+---
+Sortable 1.13.0 - MIT | git://github.com/SortableJS/Sortable.git
+---
+Remix Icon (https://github.com/Remix-Design/remixicon)
+Licensed under Apache License Version 2.0 (https://github.com/Remix-Design/remixicon/blob/master/License)

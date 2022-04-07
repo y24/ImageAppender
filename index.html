@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ImageAppender</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <!-- <meta http-equiv="Content-Security-Policy" content="img-src 'self' data:"> -->
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./style.css">
+  <script type="text/javascript" src="./node_modules/html2canvas/dist/html2canvas.min.js"></script>
+  <script type="text/javascript" src="./script/Sortable.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="receiving-box-outer">
+      <div class="receiving-box-inner">
+        <div class="receiving-box-icon"></div>
+        <p class="receiving-box-text display-4">Drag & Drop here.</p>
+      </div>
+    </div>
+
+    <div class="container-image">
+      <div class="image-list"></div>
+    </div>
+
+    <div class="container-btn">
+      <div class="form-group">
+        <button id="saveBtn" class="btn btn-info float-right">　</button>
+        <div id="configBtn" class="ui-icon"></div>
+        <div id="trashBtn" class="ui-icon"></div>
+        <div id="openFolderBtn" class="ui-icon"></div>
+        <div id="xyToggleBtn" class="ui-icon"></div>
+        <div id="commentToggleBtn" class="ui-icon"></div>
+        <div id="fontMinimizeBtn" class="ui-icon"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal">
+    <div class="modal__bg modal-close"></div>
+    <div class="modal__content">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">出力設定</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">テキスト設定</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">アプリ情報</a>
+          </li>
+        </ul>
+        <div class="modal__tab active">
+          <h5 class="mt-4">保存先フォルダ</h5>
+          <input type="text" id="outputPath" class="form-control" placeholder="クリックしてフォルダを選択" value="">
+          <span id="outputPath-notify" class="notify-text-warning">必ず設定してください。</span>
+
+          <h5 class="mt-4">出力画像サイズ</h5>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="outputSize" id="outputSize-l" value="default">
+            <label class="form-check-label" for="outputSize-l">Default</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="outputSize" id="outputSize-s" value="small">
+            <label class="form-check-label" for="outputSize-s">Small</label>
+          </div>
+          
+          <h5 class="mt-4">保存後のプロセス</h5>
+          <div class="custom-cotrol custom-switch">
+            <input type="checkbox" class="custom-control-input" id="openImgAfterSave">
+            <label class="custom-control-label" for="openImgAfterSave">生成した画像を開く</label>
+          </div>
+          <div class="custom-cotrol custom-switch">
+            <input type="checkbox" class="custom-control-input" id="clearAppAfterSave">
+          <label class="custom-control-label" for="clearAppAfterSave">画像リストをクリアする</label>
+          </div>
+        </div>
+        <div class="modal__tab">
+          <h5 class="mt-4">ペア入力候補</h5>
+          <p class="text-muted small">画像が2枚のとき、一方を入力するともう一方も自動で入力されます</p>
+          <div class="form-row">
+            <div class="col">
+              <input type="text" id="suggestListPair1" class="form-control" placeholder="" value="">
+            </div>
+            <div class="col">
+              <input type="text" id="suggestListPair2" class="form-control" placeholder="" value="">
+            </div>
+          </div>
+          <span id="suggestListPair-notify" class="notify-text">次回の画像追加時から反映されます。</span>
+
+          <h5 class="mt-4">その他の入力候補</h5>
+          <textarea id="suggestList" class="form-control" rows="3" placeholder="改行で区切って入力"></textarea>
+          <span id="suggestList-notify" class="notify-text">次回の画像追加時から反映されます。</span>
+
+          
+          <h5 class="mt-4 mb-1">フォントの色</h5>
+          <form class="form-row">
+            <div class="form-group col-md-1  mr-0 ml-0">
+              <input type="text" readonly id="sharp" class="form-control-plaintext" value="#">
+            </div>
+            <div class="form-group col-md-4 ml-0 mt-2">
+              <input type="text" id="userFontColor" class="form-control" maxlength="6" placeholder="default" value="">
+            </div>
+            <div class="form-group col-md-5 ml-0 mt-2">
+              <input type="button" id="userFontColor-setBlack" class="btn btn-secondary" value="黒">
+              <input type="button" id="userFontColor-setRed" class="btn btn-danger" value="赤">
+              <input type="button" id="userFontColor-setBlue" class="btn btn-primary" value="青">
+            </div>
+          </form>
+        </div>
+
+        <div class="modal__tab">
+          <h4 class="mt-4">ImageAppender</h3>
+          <p>version 1.0.0</p>
+          <p class="text-muted small mt-0">Copyright (c) 2021 Yasuhiko Nishi<br/>
+            Released under MIT license<br/>
+            https://opensource.org/licenses/mit-license.php</p>
+
+          <h5 class="mt-6 mb-1">Licenses</h5>
+          <object data="./OSSLicense.txt" type="text/plain" width="100%"></object>
+          
+        </div>
+    </div>
+</div>
+
+<div id="footer-success" class="alert alert-success foote" role="alert">
+  <h4 id="footter-success-title" class="alert-heading"></h4>
+  <p id="footer-success-text"></p>
+</div>
+
+<script src="./renderer.js"></script>
+</body>
+</html>
